@@ -1,0 +1,1133 @@
+<html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planilla de Personal - Grupo Mozu S.A.</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0 0 15px 0;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+        
+        .controls {
+            background: #34495e;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-success {
+            background: #27ae60;
+        }
+        
+        .btn-success:hover {
+            background: #219a52;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .info-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .info-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .editable {
+            background: rgba(255,255,255,0.2);
+            border: 1px dashed rgba(255,255,255,0.5);
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: text;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            padding: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        
+        th, td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nacionalidad {
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            text-align: center;
+        }
+        
+        .nacionalidad.cr {
+            background-color: #E3F2FD;
+            color: #1976D2;
+        }
+        
+        .nacionalidad.ni {
+            background-color: #FFF3E0;
+            color: #F57C00;
+        }
+        
+        .nacionalidad.rd {
+            background-color: #E8F5E8;
+            color: #388E3C;
+        }
+        
+        .estado {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .activo {
+            background-color: #E8F5E8;
+            color: #2E7D32;
+        }
+        
+        .inactivo {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+        
+        .bac {
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .bac-si {
+            color: #2E7D32;
+        }
+        
+        .bac-no {
+            color: #C62828;
+        }
+        
+        .footer {
+            padding: 30px;
+            background: #f8f9fa;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .add-employee-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #27ae60;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        
+        .add-employee-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .edit-mode {
+            background-color: #fff3cd !important;
+            border: 1px dashed #856404 !important;
+        }
+        
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            table {
+                font-size: 10px;
+            }
+            
+            th, td {
+                padding: 8px 4px;
+            }
+            
+            .add-employee-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👥 Nómina de Personal</h1>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Empresa</div>
+                    <div class="info-value">Grupo Mozu S.A.</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Nº Comprobante</div>
+                    <div class="info-value editable" contenteditable="true" id="comprobante">14600106</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Período</div>
+                    <div class="info-value editable" contenteditable="true" id="periodo">6 (Junio 2025)</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Fecha Recibido</div>
+                    <div class="info-value editable" contenteditable="true" id="fecha">20-06-2025</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Nº de Póliza</div>
+                    <div class="info-value editable" contenteditable="true" id="poliza">8377456</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Tipo Planilla</div>
+                    <div class="info-value">Mensual</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-success" onclick="saveData()">💾 Guardar Cambios</button>
+            <button class="btn" onclick="exportHTML()">📄 Exportar HTML</button>
+            <button class="btn" onclick="loadData()">📂 Cargar Datos</button>
+            <button class="btn btn-danger" onclick="resetData()">🔄 Resetear</button>
+        </div>
+        
+        <div class="footer">
+            <div class="stats" id="stats">
+                <div class="stat-card">
+                    <div class="stat-number">23</div>
+                    <div class="stat-label">Total Empleados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">22</div>
+                    <div class="stat-label">Activos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Inactivos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">Costa Rica</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">Nicaragua</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Rep. Dominicana</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">16</div>
+                    <div class="stat-label">Con BAC</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Acciones</th>
+                        <th>Identificación</th>
+                        <th>Nombre Completo</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Género</th>
+                        <th>Nacionalidad</th>
+                        <th>Teléfono</th>
+                        <th>Correo Electrónico</th>
+                        <th>Estado</th>
+                        <th>BAC</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTable"><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(0)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(0)">🗑️</button>
+                    </td>
+                    <td>0-208100104</td>
+                    <td><strong>CARLOS ALBERTO GARRO DIAZ</strong></td>
+                    <td>10/10/2000</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>7144-6642</td>
+                    <td>garrocarlosalberto7@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(1)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(1)">🗑️</button>
+                    </td>
+                    <td>0-207350592</td>
+                    <td><strong>CRISTOPHER HUMBERTO MORALES ZUÑIGA</strong></td>
+                    <td>28/1/1995</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>6410-1209</td>
+                    <td>cristopher.mozu@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(2)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(2)">🗑️</button>
+                    </td>
+                    <td>5-NI03032004DGA6</td>
+                    <td><strong>DANIEL GONZALEZ ARAGON</strong></td>
+                    <td>3/3/2004</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>8514-9327</td>
+                    <td>-</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-no">-</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(3)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(3)">🗑️</button>
+                    </td>
+                    <td>0-208260238</td>
+                    <td><strong>DIEGO FRANCISCO ESQUIVEL PEREZ</strong></td>
+                    <td>1/1/1970</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>6018-6450</td>
+                    <td>-</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(4)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(4)">🗑️</button>
+                    </td>
+                    <td>9-C02215572</td>
+                    <td><strong>EFRAIN JESUS BRAVO PINEDA</strong></td>
+                    <td>1/8/1983</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>6254-4343</td>
+                    <td>-</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(5)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(5)">🗑️</button>
+                    </td>
+                    <td>6-155806565711</td>
+                    <td><strong>ERICK ESPINOZA BARRIOS</strong></td>
+                    <td>22/8/1991</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>6088-9308</td>
+                    <td>-</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-no">-</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(6)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(6)">🗑️</button>
+                    </td>
+                    <td>5-NI27021996EGS8</td>
+                    <td><strong>ERWIN GABRIEL GARCIA SOZA</strong></td>
+                    <td>27/2/1996</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>505 8157-8940</td>
+                    <td>-</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-no">-</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(7)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(7)">🗑️</button>
+                    </td>
+                    <td>0-207350928</td>
+                    <td><strong>FABIAN GERARDO BALLESTERO ALFARO</strong></td>
+                    <td>30/1/1995</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>8373-1357</td>
+                    <td>-</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(8)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(8)">🗑️</button>
+                    </td>
+                    <td>0-208070472</td>
+                    <td><strong>JASON STEVEN SOSA DIAZ</strong></td>
+                    <td>8/3/2000</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>6291-9632</td>
+                    <td>diazjason310@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(9)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(9)">🗑️</button>
+                    </td>
+                    <td>5-NI29111985JAC7</td>
+                    <td><strong>JOSE GEOVANNIE ARAUZ CANALES</strong></td>
+                    <td>29/11/1985</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>8627-4243</td>
+                    <td>ageovanny500@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-no">-</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(10)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(10)">🗑️</button>
+                    </td>
+                    <td>6-121400234707</td>
+                    <td><strong>JOSE MIGUEL VASQUEZ VASQUEZ</strong></td>
+                    <td>26/6/1995</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad rd">República Dominicana</span></td>
+                    <td>6394-3042</td>
+                    <td>theclassicjmv@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(11)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(11)">🗑️</button>
+                    </td>
+                    <td>0-118520530</td>
+                    <td><strong>JOSEPH DAVID ZACHES BERMUDEZ</strong></td>
+                    <td>3/9/2002</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>6149-9917</td>
+                    <td>josephzanches919@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(12)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(12)">🗑️</button>
+                    </td>
+                    <td>6-155847989227</td>
+                    <td><strong>JUAN ACUÑA OBANDO</strong></td>
+                    <td>24/6/1996</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>6034-7339</td>
+                    <td>-</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-no">-</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(13)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(13)">🗑️</button>
+                    </td>
+                    <td>0-205350686</td>
+                    <td><strong>LUIS ALBERTO BALLESTERO MURILLO</strong></td>
+                    <td>9/1/1979</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>6401-2268</td>
+                    <td>-</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(14)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(14)">🗑️</button>
+                    </td>
+                    <td>0-207990526</td>
+                    <td><strong>LUIS MIGUEL HERRERA BARRIOS</strong></td>
+                    <td>12/12/1999</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>6088-9308</td>
+                    <td>-</td>
+                    <td><span class="estado inactivo">Inactivo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(15)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(15)">🗑️</button>
+                    </td>
+                    <td>0-602190233</td>
+                    <td><strong>MARCOS HUMBERTO MORALES GARBANZO</strong></td>
+                    <td>10/11/1968</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>6469-5098</td>
+                    <td>marcos.mozu@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-no">-</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(16)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(16)">🗑️</button>
+                    </td>
+                    <td>6-155823362236</td>
+                    <td><strong>MILTON LOPEZ GUTIERREZ</strong></td>
+                    <td>15/10/1986</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>6070-2041</td>
+                    <td>miltonlopez@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(17)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(17)">🗑️</button>
+                    </td>
+                    <td>0-208310398</td>
+                    <td><strong>NIXON ELIUD GOMEZ ROJAS</strong></td>
+                    <td>19/6/2001</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>6362-3877</td>
+                    <td>nixoneliudg@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(18)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(18)">🗑️</button>
+                    </td>
+                    <td>9-C03257152</td>
+                    <td><strong>ROLANDO SAUL GOMEZ MUÑOZ</strong></td>
+                    <td>12/9/2005</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>6486-6039</td>
+                    <td>sg247670@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-no">-</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(19)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(19)">🗑️</button>
+                    </td>
+                    <td>7-155814086828</td>
+                    <td><strong>ROSENDO HERNANDEZ</strong></td>
+                    <td>28/2/1971</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>0000000</td>
+                    <td>NOTIENE@CORREO.COM</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(20)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(20)">🗑️</button>
+                    </td>
+                    <td>6-155850950419</td>
+                    <td><strong>SAMUEL AARÓN ORTIZ MARTINEZ</strong></td>
+                    <td>14/11/2008</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>6305-7748</td>
+                    <td>samuel_1414@cloud.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(21)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(21)">🗑️</button>
+                    </td>
+                    <td>6-155845748733</td>
+                    <td><strong>SANTIAGO MARTINEZ</strong></td>
+                    <td>30/12/1968</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad ni">Nicaragua</span></td>
+                    <td>8781-7650</td>
+                    <td>-</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr><tr>
+                    <td>
+                        <button class="btn" onclick="editEmployee(22)" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(22)">🗑️</button>
+                    </td>
+                    <td>0-603920864</td>
+                    <td><strong>YEIKOL DE LOS A MORALES ZUÑIGA</strong></td>
+                    <td>8/3/1991</td>
+                    <td>Masculino</td>
+                    <td><span class="nacionalidad cr">Costa Rica</span></td>
+                    <td>6469-5098</td>
+                    <td>yeikol.mozu@gmail.com</td>
+                    <td><span class="estado activo">Activo</span></td>
+                    <td class="bac bac-si">SI</td>
+                </tr></tbody>
+            </table>
+        </div>
+        
+        <div style="padding: 20px; background: #f8f9fa; border-top: 1px solid #e0e0e0; text-align: center; color: #666; font-size: 0.9em;">
+            <p><strong>Grupo Mozu S.A.</strong> - Sistema de Gestión de Personal</p>
+            <p>Generado el <span id="currentDate">20/6/2025</span></p>
+        </div>
+    </div>
+
+    <!-- Add Employee Modal -->
+    <div id="employeeModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Editar Empleado</h3>
+                <span class="close">×</span>
+            </div>
+            <form id="employeeForm">
+                <div class="form-group">
+                    <label for="identificacion">Identificación:</label>
+                    <input type="text" id="identificacion" name="identificacion">
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo:</label>
+                    <input type="text" id="nombre" name="nombre" required="">
+                </div>
+                <div class="form-group">
+                    <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                    <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+                </div>
+                <div class="form-group">
+                    <label for="genero">Género:</label>
+                    <select id="genero" name="genero">
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nacionalidad">Nacionalidad:</label>
+                    <select id="nacionalidad" name="nacionalidad">
+                        <option value="Costa Rica">Costa Rica</option>
+                        <option value="Nicaragua">Nicaragua</option>
+                        <option value="República Dominicana">República Dominicana</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono">
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select id="estado" name="estado">
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bac">BAC:</label>
+                    <select id="bac" name="bac">
+                        <option value="SI">SI</option>
+                        <option value="-">NO</option>
+                    </select>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" class="btn" onclick="closeModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <button class="add-employee-btn" onclick="openModal()">+</button>
+
+    <script>
+        // Initial employee data
+        let employees = [
+            {
+                identificacion: "0-208100104",
+                nombre: "CARLOS ALBERTO GARRO DIAZ",
+                fechaNacimiento: "14/10/2000",
+                genero: "Masculino",
+                nacionalidad: "Costa Rica",
+                telefono: "7144-6642",
+                email: "garrocarlosalberto7@gmail.com",
+                estado: "Activo",
+                bac: "SI"
+            },
+            {
+                identificacion: "0-207350592",
+                nombre: "CRISTOPHER HUMBERTO MORALES ZUÑIGA",
+                fechaNacimiento: "28/1/1995",
+                genero: "Masculino",
+                nacionalidad: "Costa Rica",
+                telefono: "6410-1209",
+                email: "cristopher.mozu@gmail.com",
+                estado: "Activo",
+                bac: "SI"
+            },
+            // Add more employees as needed...
+        ];
+
+        let currentEditIndex = -1;
+
+        function renderTable() {
+            const tbody = document.getElementById('employeeTable');
+            tbody.innerHTML = '';
+            
+            employees.forEach((emp, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <button class="btn" onclick="editEmployee(${index})" style="padding: 4px 8px; font-size: 10px; margin-right: 2px;">✏️</button>
+                        <button class="delete-btn" onclick="deleteEmployee(${index})">🗑️</button>
+                    </td>
+                    <td>${emp.identificacion || '-'}</td>
+                    <td><strong>${emp.nombre}</strong></td>
+                    <td>${emp.fechaNacimiento || '-'}</td>
+                    <td>${emp.genero}</td>
+                    <td><span class="nacionalidad ${getNacionalidadClass(emp.nacionalidad)}">${emp.nacionalidad}</span></td>
+                    <td>${emp.telefono || '-'}</td>
+                    <td>${emp.email || '-'}</td>
+                    <td><span class="estado ${emp.estado.toLowerCase()}">${emp.estado}</span></td>
+                    <td class="bac ${emp.bac === 'SI' ? 'bac-si' : 'bac-no'}">${emp.bac}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            updateStats();
+        }
+
+        function getNacionalidadClass(nacionalidad) {
+            switch(nacionalidad) {
+                case 'Costa Rica': return 'cr';
+                case 'Nicaragua': return 'ni';
+                case 'República Dominicana': return 'rd';
+                default: return 'cr';
+            }
+        }
+
+        function updateStats() {
+            const stats = {
+                total: employees.length,
+                activos: employees.filter(e => e.estado === 'Activo').length,
+                inactivos: employees.filter(e => e.estado === 'Inactivo').length,
+                costaRica: employees.filter(e => e.nacionalidad === 'Costa Rica').length,
+                nicaragua: employees.filter(e => e.nacionalidad === 'Nicaragua').length,
+                dominicana: employees.filter(e => e.nacionalidad === 'República Dominicana').length,
+                conBAC: employees.filter(e => e.bac === 'SI').length
+            };
+
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${stats.total}</div>
+                    <div class="stat-label">Total Empleados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.activos}</div>
+                    <div class="stat-label">Activos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.inactivos}</div>
+                    <div class="stat-label">Inactivos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.costaRica}</div>
+                    <div class="stat-label">Costa Rica</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.nicaragua}</div>
+                    <div class="stat-label">Nicaragua</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.dominicana}</div>
+                    <div class="stat-label">Rep. Dominicana</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.conBAC}</div>
+                    <div class="stat-label">Con BAC</div>
+                </div>
+            `;
+        }
+
+        function openModal(editIndex = -1) {
+            currentEditIndex = editIndex;
+            const modal = document.getElementById('employeeModal');
+            const form = document.getElementById('employeeForm');
+            const title = document.getElementById('modalTitle');
+            
+            if (editIndex >= 0) {
+                title.textContent = 'Editar Empleado';
+                const emp = employees[editIndex];
+                
+                // Convert date format if needed
+                let dateValue = '';
+                if (emp.fechaNacimiento && emp.fechaNacimiento !== '-') {
+                    const parts = emp.fechaNacimiento.split('/');
+                    if (parts.length === 3) {
+                        dateValue = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+                    }
+                }
+                
+                document.getElementById('identificacion').value = emp.identificacion || '';
+                document.getElementById('nombre').value = emp.nombre || '';
+                document.getElementById('fechaNacimiento').value = dateValue;
+                document.getElementById('genero').value = emp.genero || 'Masculino';
+                document.getElementById('nacionalidad').value = emp.nacionalidad || 'Costa Rica';
+                document.getElementById('telefono').value = emp.telefono || '';
+                document.getElementById('email').value = emp.email || '';
+                document.getElementById('estado').value = emp.estado || 'Activo';
+                document.getElementById('bac').value = emp.bac || 'SI';
+            } else {
+                title.textContent = 'Agregar Empleado';
+                form.reset();
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('employeeModal').style.display = 'none';
+            currentEditIndex = -1;
+        }
+
+        function editEmployee(index) {
+            openModal(index);
+        }
+
+        function deleteEmployee(index) {
+            if (confirm('¿Está seguro que desea eliminar este empleado?')) {
+                employees.splice(index, 1);
+                renderTable();
+            }
+        }
+
+        function saveData() {
+            const data = {
+                employees: employees,
+                info: {
+                    comprobante: document.getElementById('comprobante').textContent,
+                    periodo: document.getElementById('periodo').textContent,
+                    fecha: document.getElementById('fecha').textContent,
+                    poliza: document.getElementById('poliza').textContent
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'planilla_data.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            alert('Datos guardados exitosamente');
+        }
+
+        function loadData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            employees = data.employees || [];
+                            
+                            if (data.info) {
+                                document.getElementById('comprobante').textContent = data.info.comprobante || '';
+                                document.getElementById('periodo').textContent = data.info.periodo || '';
+                                document.getElementById('fecha').textContent = data.info.fecha || '';
+                                document.getElementById('poliza').textContent = data.info.poliza || '';
+                            }
+                            
+                            renderTable();
+                            alert('Datos cargados exitosamente');
+                        } catch (error) {
+                            alert('Error al cargar el archivo');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        function exportHTML() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'planilla_personal.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function resetData() {
+            if (confirm('¿Está seguro que desea resetear todos los datos?')) {
+                employees = [];
+                renderTable();
+            }
+        }
+
+        // Event listeners
+        document.getElementById('employeeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const employee = {};
+            
+            for (let [key, value] of formData.entries()) {
+                employee[key] = value;
+            }
+            
+            // Convert date format
+            if (employee.fechaNacimiento) {
+                const date = new Date(employee.fechaNacimiento);
+                employee.fechaNacimiento = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+            }
+            
+            if (currentEditIndex >= 0) {
+                employees[currentEditIndex] = employee;
+            } else {
+                employees.push(employee);
+            }
+            
+            renderTable();
+            closeModal();
+        });
+
+        document.querySelector('.close').addEventListener('click', closeModal);
+
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('employeeModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('es-ES');
+        renderTable();
+    </script>
+
+</body></html>
